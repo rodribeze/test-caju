@@ -14,7 +14,7 @@ export const DialogConfirmation = ({
   onConfirm
 }: DialogConfirmationProps) => {
   return (
-    <S.Backdrop show={show} delay={500}>
+    <S.Backdrop show={show ? 'true' : undefined} delay={500}>
       <S.Container>
         <S.Header>Attention</S.Header>
         <S.Body>{description}</S.Body>

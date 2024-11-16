@@ -1,6 +1,6 @@
 import { Registration } from "@/clients/registrations/IRegistrationsClient";
 import { RegistrationsClient } from "@/clients/registrations/RegistrationsClient";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 
 type Actions =
   | "fetchRegistration"
@@ -21,13 +21,13 @@ export const useRegistrations = () => {
   const [cpf, setCpf] = useState("");
   const [showConfirmAction, setShowConfirmAction] = useState<{
     registration: Registration;
-    action: Registration['status'] | 'TRASH'
-  } | null>(null)
+    action: Registration["status"] | "TRASH";
+  } | null>(null);
 
   const [loaders, setLoaders] = useState<Loaders>(initialActions);
   const [errors, setErrors] = useState<Loaders>(initialActions);
 
-  const fetchRegistrations = async () => {
+  const fetchRegistrations = useCallback(async () => {
     try {
       setErrors((current) => ({
         ...current,
@@ -59,7 +59,7 @@ export const useRegistrations = () => {
         fetchRegistration: false,
       }));
     }
-  };
+  }, [setErrors, setLoaders]);
 
   const updateRegistrationStatus = async (
     register: Registration,
@@ -151,6 +151,6 @@ export const useRegistrations = () => {
     errors,
     showConfirmAction,
     setShowConfirmAction,
-    handleActions
+    handleActions,
   };
 };
