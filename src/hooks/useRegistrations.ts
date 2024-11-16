@@ -2,46 +2,110 @@ import { Registration } from "@/clients/registrations/IRegistrationsClient";
 import { RegistrationsClient } from "@/clients/registrations/RegistrationsClient";
 import { useState } from "react";
 
-export const useRegistrations = () => {
+type Actions =
+  | "fetchRegistration"
+  | "updateRegistrationStatus"
+  | "removeRegistration";
 
+type Loaders = Record<Actions, boolean>;
+type Errors = Record<Actions, boolean>;
+
+const initialActions: Record<Actions, boolean> = {
+  fetchRegistration: false,
+  updateRegistrationStatus: false,
+  removeRegistration: false,
+};
+
+export const useRegistrations = () => {
   const [registrations, setRegistration] = useState<Registration[]>([]);
-  const [cpf, setCpf] = useState('');
+  const [cpf, setCpf] = useState("");
+
+  const [loaders, setLoaders] = useState<Loaders>(initialActions);
+  const [errors, setErrors] = useState<Loaders>(initialActions);
 
   const fetchRegistrations = async () => {
     try {
+      setErrors((current) => ({
+        ...current,
+        fetchRegistration: false,
+      }));
+      setLoaders((current) => ({
+        ...current,
+        fetchRegistration: true,
+      }));
+
       const { data, statusCode, message } =
         await RegistrationsClient.getRegistrations({
-            cpf: cpf
+          cpf: cpf,
         });
 
       if (statusCode !== 200) throw new Error(message ?? "error");
 
       setRegistration(data ?? []);
     } catch (e) {
+      setErrors((current) => ({
+        ...current,
+        fetchRegistration: true,
+      }));
       console.error(e);
       alert("Unable to fetch registrations");
+    } finally {
+      setLoaders((current) => ({
+        ...current,
+        fetchRegistration: false,
+      }));
     }
   };
 
-  const updateRegistrationStatus = async (register: Registration, status: Registration['status']) => {
+  const updateRegistrationStatus = async (
+    register: Registration,
+    status: Registration["status"]
+  ) => {
     try {
+      setErrors((current) => ({
+        ...current,
+        updateRegistrationStatus: false,
+      }));
+      setLoaders((current) => ({
+        ...current,
+        updateRegistrationStatus: true,
+      }));
+
       const { statusCode, message } =
         await RegistrationsClient.updateRegistration({
           ...register,
-          status
+          status,
         });
 
       if (statusCode !== 200) throw new Error(message ?? "error");
 
       fetchRegistrations();
     } catch (e) {
+      setErrors((current) => ({
+        ...current,
+        updateRegistrationStatus: true,
+      }));
       console.error(e);
       alert("Unable to update registration");
+    } finally {
+      setLoaders((current) => ({
+        ...current,
+        updateRegistrationStatus: false,
+      }));
     }
-  }
+  };
 
   const deleteRegistration = async (register: Registration) => {
     try {
+      setErrors((current) => ({
+        ...current,
+        removeRegistration: false,
+      }));
+      setLoaders((current) => ({
+        ...current,
+        removeRegistration: true,
+      }));
+
       const { statusCode, message } =
         await RegistrationsClient.removeRegistration(register.id);
 
@@ -49,10 +113,20 @@ export const useRegistrations = () => {
 
       fetchRegistrations();
     } catch (e) {
+      setErrors((current) => ({
+        ...current,
+        updateRegistrationStatus: true,
+      }));
+
       console.error(e);
       alert("Unable to delete registration");
+    } finally {
+      setLoaders((current) => ({
+        ...current,
+        removeRegistration: true,
+      }));
     }
-  }
+  };
 
   return {
     registrations,
@@ -60,6 +134,8 @@ export const useRegistrations = () => {
     updateRegistrationStatus,
     deleteRegistration,
     cpf,
-    setCpf
+    setCpf,
+    loaders,
+    errors,
   };
 };

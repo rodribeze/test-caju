@@ -6,6 +6,7 @@ import TextField from "@/components/TextField";
 import routes from "@/router/routes";
 import * as S from "./styles";
 import { validateCpf } from "@/utils/validateCpf";
+import InputMask from "react-input-mask";
 
 type SearchBarProps = {
   onSearch: (cpf: string) => void;
@@ -25,7 +26,7 @@ export const SearchBar = (props: SearchBarProps) => {
       props.onSearch &&
         props.onSearch(
           validateCpf(e.target.value)
-            ? e.target.value.replace(/[^0-9]/, "")
+            ? e.target.value.replace(/[^0-9]/gi, "")
             : ""
         );
     }, 500);
@@ -33,7 +34,11 @@ export const SearchBar = (props: SearchBarProps) => {
 
   return (
     <S.Container>
-      <TextField placeholder="Digite um CPF válido" onChange={handleSearch} />
+      <InputMask mask="999.999.999-99" onChange={handleSearch}>
+        {(inputProps) => (
+          <TextField {...inputProps} placeholder="Digite um CPF válido" />
+        )}
+      </InputMask>
       <S.Actions>
         <IconButton aria-label="refetch">
           <HiRefresh />
