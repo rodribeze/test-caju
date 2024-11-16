@@ -11,17 +11,17 @@ const allColumns = [
 type Props = {
   registrations?: any[];
 };
-const Collumns = (props: Props) => {
+const Columns = (props: Props) => {
   return (
     <S.Container>
-      {allColumns.map((collum) => {
+      {allColumns.map((colum) => {
         return (
-          <S.Column status={collum.status} key={collum.title}>
+          <S.Column status={colum.status} key={colum.title}>
             <>
-              <S.TitleColumn status={collum.status}>
-                {collum.title}
+              <S.TitleColumn status={colum.status}>
+                {colum.title}
               </S.TitleColumn>
-              <S.CollumContent>
+              <S.ColumnContent>
                 {props?.registrations?.map((registration) => {
                   return (
                     <RegistrationCard
@@ -30,7 +30,7 @@ const Collumns = (props: Props) => {
                     />
                   );
                 })}
-              </S.CollumContent>
+              </S.ColumnContent>
             </>
           </S.Column>
         );
@@ -38,4 +38,4 @@ const Collumns = (props: Props) => {
     </S.Container>
   );
 };
-export default Collumns;
+export default Columns;
