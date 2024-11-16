@@ -1,12 +1,21 @@
 import Columns from "./components/Columns";
 import * as S from "./styles";
 import { SearchBar } from "./components/Searchbar";
+import { useRegistrations } from "@/hooks/useRegistrations";
+import { useEffect } from "react";
 
 const DashboardPage = () => {
+
+  const { fetchRegistrations, cpf, registrations, setCpf } = useRegistrations();
+
+  useEffect(() => {
+    fetchRegistrations();
+  }, [fetchRegistrations, cpf])
+
   return (
     <S.Container>
-      <SearchBar />
-      <Columns registrations={[]} />
+      <SearchBar onSearch={(cpf) => setCpf(cpf)} />
+      <Columns registrations={registrations} />
     </S.Container>
   );
 };

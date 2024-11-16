@@ -5,16 +5,29 @@ import { IconButton } from "@/components/Buttons/IconButton";
 import TextField from "@/components/TextField";
 import routes from "@/router/routes";
 import * as S from "./styles";
-export const SearchBar = () => {
+import { validateCpf } from "@/utils/validateCpf";
+
+type SearchBarProps = {
+  onSearch: (cpf: string) => void;
+};
+
+export const SearchBar = (props: SearchBarProps) => {
   const history = useHistory();
 
   const goToNewAdmissionPage = () => {
     history.push(routes.newUser);
   };
-  
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!String(e.target.value).trim()) props.onSearch("");
+    else
+      validateCpf(e.target.value) &&
+        props.onSearch(e.target.value.replace(/[^0-9]/, ""));
+  };
+
   return (
     <S.Container>
-      <TextField  placeholder="Digite um CPF válido" />
+      <TextField placeholder="Digite um CPF válido" onChange={handleSearch} />
       <S.Actions>
         <IconButton aria-label="refetch">
           <HiRefresh />
