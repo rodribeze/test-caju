@@ -1,35 +1,51 @@
-
 import * as S from "./styles";
 import RegistrationCard from "../RegistrationCard";
+import {
+  Registration,
+  RegistrationStatus,
+} from "@/clients/registrations/IRegistrationsClient";
 
 const allColumns = [
-  { status: 'REVIEW', title: "Pronto para revisar" },
-  { status: 'APPROVED', title: "Aprovado" },
-  { status: 'REPROVED', title: "Reprovado" },
+  { status: RegistrationStatus.Review, title: "Pronto para revisar" },
+  { status: RegistrationStatus.Approved, title: "Aprovado" },
+  { status: RegistrationStatus.Reproved, title: "Reprovado" },
 ];
 
 type Props = {
-  registrations?: any[];
+  registrations?: Registration[];
+  onClickAction?: (
+    action: Registration["status"] | "TRASH",
+    registration: Registration
+  ) => void;
 };
+
 const Columns = (props: Props) => {
   return (
     <S.Container>
-      {allColumns.map((colum) => {
+      {allColumns.map((column) => {
         return (
-          <S.Column status={colum.status} key={colum.title}>
+          <S.Column status={column.status} key={column.title}>
             <>
-              <S.TitleColumn status={colum.status}>
-                {colum.title}
+              <S.TitleColumn status={column.status}>
+                {column.title}
               </S.TitleColumn>
               <S.ColumnContent>
-                {props?.registrations?.map((registration) => {
-                  return (
-                    <RegistrationCard
-                      data={registration}
-                      key={registration.id}
-                    />
-                  );
-                })}
+                {props?.registrations
+                  ?.filter(
+                    (registration) => registration.status === column.status
+                  )
+                  ?.map((registration) => {
+                    return (
+                      <RegistrationCard
+                        data={registration}
+                        key={registration.id}
+                        onClickAction={(status) =>
+                          props.onClickAction &&
+                          props.onClickAction(status, registration)
+                        }
+                      />
+                    );
+                  })}
               </S.ColumnContent>
             </>
           </S.Column>

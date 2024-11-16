@@ -6,9 +6,11 @@ import {
   HiOutlineCalendar,
   HiOutlineTrash,
 } from "react-icons/hi";
+import { Registration } from "@/clients/registrations/IRegistrationsClient";
 
 type Props = {
-  data: any;
+  data: Registration;
+  onClickAction?: (action: Registration["status"] | "TRASH") => void;
 };
 
 const RegistrationCard = (props: Props) => {
@@ -27,11 +29,40 @@ const RegistrationCard = (props: Props) => {
         <span>{props.data.admissionDate}</span>
       </S.IconAndText>
       <S.Actions>
-        <ButtonSmall bgcolor="rgb(255, 145, 154)" >Reprovar</ButtonSmall>
-        <ButtonSmall bgcolor="rgb(155, 229, 155)">Aprovar</ButtonSmall>
-        <ButtonSmall bgcolor="#ff8858">Revisar novamente</ButtonSmall>
+        {(props.data.status === "APPROVED" ||
+          props.data.status === "REPROVED") && (
+          <ButtonSmall
+            onClick={() => props.onClickAction && props.onClickAction("REVIEW")}
+            bgcolor="#ff8858"
+          >
+            Revisar novamente
+          </ButtonSmall>
+        )}
+        {props.data.status === "REVIEW" && (
+          <>
+            <ButtonSmall
+              onClick={() =>
+                props.onClickAction && props.onClickAction("APPROVED")
+              }
+              bgcolor="rgb(155, 229, 155)"
+            >
+              Aprovar
+            </ButtonSmall>
 
-        <HiOutlineTrash />
+            <ButtonSmall
+              onClick={() =>
+                props.onClickAction && props.onClickAction("REPROVED")
+              }
+              bgcolor="rgb(255, 145, 154)"
+            >
+              Reprovar
+            </ButtonSmall>
+          </>
+        )}
+
+        <HiOutlineTrash
+          onClick={() => props.onClickAction && props.onClickAction("TRASH")}
+        />
       </S.Actions>
     </S.Card>
   );
