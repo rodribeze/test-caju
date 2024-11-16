@@ -39,7 +39,7 @@ const DashboardPage = () => {
     <>
       <CajuLoading show={loading} />
       <S.Container>
-        <SearchBar onSearch={(cpf) => setCpf(cpf)} />
+        <SearchBar onSearch={(cpf) => setCpf(cpf)} onRefresh={fetchRegistrations} />
         <Columns registrations={registrations} onClickAction={handleActions} />
       </S.Container>
     </>

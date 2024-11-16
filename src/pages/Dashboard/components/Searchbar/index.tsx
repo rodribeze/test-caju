@@ -10,6 +10,7 @@ import InputMask from "react-input-mask";
 
 type SearchBarProps = {
   onSearch: (cpf: string) => void;
+  onRefresh: () => void;
 };
 
 export const SearchBar = (props: SearchBarProps) => {
@@ -40,7 +41,7 @@ export const SearchBar = (props: SearchBarProps) => {
         )}
       </InputMask>
       <S.Actions>
-        <IconButton aria-label="refetch">
+        <IconButton onClick={props.onRefresh} aria-label="refetch">
           <HiRefresh />
         </IconButton>
         <Button onClick={() => goToNewAdmissionPage()}>Nova Admissão</Button>
