@@ -3,8 +3,9 @@ import * as S from "./styles";
 import { SearchBar } from "./components/Searchbar";
 import { useRegistrations } from "@/hooks/useRegistrations";
 import { useEffect, useMemo } from "react";
-import { Registration } from "@/clients/registrations/IRegistrationsClient";
 import { CajuLoading } from "@/components/CajuLoading";
+import { DialogConfirmation } from "@/components/DialogConfirmation";
+import { RegistrationStatus } from "@/clients/registrations/IRegistrationsClient";
 
 const DashboardPage = () => {
   const {
@@ -12,8 +13,9 @@ const DashboardPage = () => {
     cpf,
     registrations,
     setCpf,
-    updateRegistrationStatus,
-    deleteRegistration,
+    setShowConfirmAction,
+    showConfirmAction,
+    handleActions,
     loaders,
   } = useRegistrations();
 
@@ -21,26 +23,51 @@ const DashboardPage = () => {
     fetchRegistrations();
   }, [cpf]);
 
-  const handleActions = (
-    status: Registration["status"] | "TRASH",
-    registration: Registration
-  ) => {
-    if (status === "TRASH") deleteRegistration(registration);
-    else updateRegistrationStatus(registration, status);
-  };
-
   const loading = useMemo(() => {
-    return loaders.fetchRegistration ||
-    loaders.removeRegistration ||
-    loaders.updateRegistrationStatus
-  }, [loaders])
+    return (
+      loaders.fetchRegistration ||
+      loaders.removeRegistration ||
+      loaders.updateRegistrationStatus
+    );
+  }, [loaders]);
+
+  const labelActions = {
+    [RegistrationStatus.Approved]: 'approve',
+    [RegistrationStatus.Reproved]: 'approve',
+    [RegistrationStatus.Review]: 'review',
+    ['TRASH']: 'remove',
+  }
 
   return (
     <>
       <CajuLoading show={loading} />
       <S.Container>
-        <SearchBar onSearch={(cpf) => setCpf(cpf)} onRefresh={fetchRegistrations} />
-        <Columns registrations={registrations} onClickAction={handleActions} />
+        <SearchBar
+          onSearch={(cpf) => setCpf(cpf)}
+          onRefresh={fetchRegistrations}
+        />
+        <Columns
+          registrations={registrations}
+          onClickAction={(action, registration) =>
+            setShowConfirmAction({
+              action,
+              registration,
+            })
+          }
+        />
+        <DialogConfirmation
+          onConfirm={() => {
+            setShowConfirmAction(null);
+            showConfirmAction &&
+              handleActions(
+                showConfirmAction.action,
+                showConfirmAction.registration
+              );
+          }}
+          onCancel={() => setShowConfirmAction(null)}
+          show={!!showConfirmAction}
+          description={`Do you would like confirm to ${showConfirmAction && labelActions[showConfirmAction.action]} this registration?`}
+        />
       </S.Container>
     </>
   );

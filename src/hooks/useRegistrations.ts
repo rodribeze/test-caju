@@ -19,6 +19,10 @@ const initialActions: Record<Actions, boolean> = {
 export const useRegistrations = () => {
   const [registrations, setRegistration] = useState<Registration[]>([]);
   const [cpf, setCpf] = useState("");
+  const [showConfirmAction, setShowConfirmAction] = useState<{
+    registration: Registration;
+    action: Registration['status'] | 'TRASH'
+  } | null>(null)
 
   const [loaders, setLoaders] = useState<Loaders>(initialActions);
   const [errors, setErrors] = useState<Loaders>(initialActions);
@@ -128,6 +132,14 @@ export const useRegistrations = () => {
     }
   };
 
+  const handleActions = (
+    status: Registration["status"] | "TRASH",
+    registration: Registration
+  ) => {
+    if (status === "TRASH") deleteRegistration(registration);
+    else updateRegistrationStatus(registration, status);
+  };
+
   return {
     registrations,
     fetchRegistrations,
@@ -137,5 +149,8 @@ export const useRegistrations = () => {
     setCpf,
     loaders,
     errors,
+    showConfirmAction,
+    setShowConfirmAction,
+    handleActions
   };
 };

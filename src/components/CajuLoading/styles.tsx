@@ -1,6 +1,6 @@
 import styled, { keyframes } from "styled-components";
 
-type CajuLoadingOverlayProps = {
+type CajuLoadingBackdropProps = {
   show: boolean;
   delay: number;
 };
@@ -23,7 +23,7 @@ const fadeOut = keyframes`
   }
 `;
 
-export const CajuLoadingOverlay = styled.div<CajuLoadingOverlayProps>`
+export const CajuLoadingBackdrop = styled.div<CajuLoadingBackdropProps>`
   display: flex;
   width: 100%;
   height: 100%;

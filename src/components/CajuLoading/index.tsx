@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { CajuLoadingOverlay } from "./styles";
+import * as S from "./styles";
 import cajuImg from "@/assets/caju.webp";
 
 type CajuLoadingProps = {
@@ -21,8 +21,8 @@ export const CajuLoading = (props: CajuLoadingProps) => {
   }, [props.show]);
 
   return (
-    <CajuLoadingOverlay show={showLoading} delay={props.delay ?? 500}>
+    <S.CajuLoadingBackdrop show={showLoading} delay={props.delay ?? 500}>
       <img src={cajuImg} width={100} alt="caju-logo" />
-    </CajuLoadingOverlay>
+    </S.CajuLoadingBackdrop>
   );
 };
