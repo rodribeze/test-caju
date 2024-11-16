@@ -13,16 +13,22 @@ type SearchBarProps = {
 
 export const SearchBar = (props: SearchBarProps) => {
   const history = useHistory();
+  let debounce: NodeJS.Timeout;
 
   const goToNewAdmissionPage = () => {
     history.push(routes.newUser);
   };
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (!String(e.target.value).trim()) props.onSearch("");
-    else
-      validateCpf(e.target.value) &&
-        props.onSearch(e.target.value.replace(/[^0-9]/, ""));
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      props.onSearch &&
+        props.onSearch(
+          validateCpf(e.target.value)
+            ? e.target.value.replace(/[^0-9]/, "")
+            : ""
+        );
+    }, 500);
   };
 
   return (

@@ -10,7 +10,7 @@ const DashboardPage = () => {
 
   useEffect(() => {
     fetchRegistrations();
-  }, [fetchRegistrations, cpf])
+  }, [cpf])
 
   return (
     <S.Container>
