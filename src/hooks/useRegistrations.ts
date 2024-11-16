@@ -1,6 +1,7 @@
 import { Registration } from "@/clients/registrations/IRegistrationsClient";
 import { RegistrationsClient } from "@/clients/registrations/RegistrationsClient";
 import { useCallback, useState } from "react";
+import { useToast } from "./useToast";
 
 type Actions =
   | "fetchRegistration"
@@ -23,9 +24,10 @@ export const useRegistrations = () => {
     registration: Registration;
     action: Registration["status"] | "TRASH";
   } | null>(null);
+  const { showMessage } = useToast();
 
   const [loaders, setLoaders] = useState<Loaders>(initialActions);
-  const [errors, setErrors] = useState<Loaders>(initialActions);
+  const [errors, setErrors] = useState<Errors>(initialActions);
 
   const fetchRegistrations = useCallback(async () => {
     try {
@@ -52,7 +54,7 @@ export const useRegistrations = () => {
         fetchRegistration: true,
       }));
       console.error(e);
-      alert("Unable to fetch registrations");
+      showMessage("Unable to fetch registrations", "error");
     } finally {
       setLoaders((current) => ({
         ...current,
@@ -83,6 +85,7 @@ export const useRegistrations = () => {
 
       if (statusCode !== 200) throw new Error(message ?? "error");
 
+      showMessage('Update registration successfully')
       fetchRegistrations();
     } catch (e) {
       setErrors((current) => ({
@@ -90,7 +93,7 @@ export const useRegistrations = () => {
         updateRegistrationStatus: true,
       }));
       console.error(e);
-      alert("Unable to update registration");
+      showMessage("Unable to update registration", "error");
     } finally {
       setLoaders((current) => ({
         ...current,
@@ -115,6 +118,7 @@ export const useRegistrations = () => {
 
       if (statusCode !== 200) throw new Error(message ?? "error");
 
+      showMessage('Delete registration successfully')
       fetchRegistrations();
     } catch (e) {
       setErrors((current) => ({
@@ -123,7 +127,7 @@ export const useRegistrations = () => {
       }));
 
       console.error(e);
-      alert("Unable to delete registration");
+      showMessage("Unable to delete registration", "error");
     } finally {
       setLoaders((current) => ({
         ...current,
