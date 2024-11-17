@@ -130,7 +130,7 @@ export const useRegistrations = () => {
 
       history.push(routes.dashboard);
       showMessage('Registration created successfully')
-      
+
     } catch (e) {
       setErrors((current) => ({
         ...current,
@@ -167,7 +167,7 @@ export const useRegistrations = () => {
     } catch (e) {
       setErrors((current) => ({
         ...current,
-        updateRegistrationStatus: true,
+        removeRegistration: true,
       }));
 
       console.error(e);
@@ -175,7 +175,7 @@ export const useRegistrations = () => {
     } finally {
       setLoaders((current) => ({
         ...current,
-        removeRegistration: true,
+        removeRegistration: false,
       }));
     }
   };
