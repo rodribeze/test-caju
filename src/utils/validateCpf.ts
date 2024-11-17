@@ -1,9 +1,17 @@
 export const validateCpf = (cpf: string) => {
-  let cpfRaw = cpf;
+  const cpfRaw = cpf.replace(/[^0-9]/gi, "");
 
   if (cpfRaw.length !== 11) return false;
-
-  cpfRaw = cpfRaw.replace(/[^0-9]/gi, "")
+  if(cpfRaw === '00000000000') return false;
+  if(cpfRaw === '11111111111') return false;
+  if(cpfRaw === '22222222222') return false;
+  if(cpfRaw === '33333333333') return false;
+  if(cpfRaw === '44444444444') return false;
+  if(cpfRaw === '55555555555') return false;
+  if(cpfRaw === '66666666666') return false;
+  if(cpfRaw === '77777777777') return false;
+  if(cpfRaw === '88888888888') return false;
+  if(cpfRaw === '99999999999') return false;
 
   // checking first digit xxx.xxx.xxx.(X)x
   const aFirstCheck = [10, 9, 8, 7, 6, 5, 4, 3, 2];
