@@ -59,7 +59,7 @@ export const useRegistrations = () => {
         fetchRegistration: true,
       }));
       console.error(e);
-      showMessage("Unable to fetch registrations", "error");
+      showMessage("Não foi possivel listar os candidatos", "error");
     } finally {
       setLoaders((current) => ({
         ...current,
@@ -90,7 +90,7 @@ export const useRegistrations = () => {
 
       if (statusCode !== 200) throw new Error(message ?? "error");
 
-      showMessage('Update registration successfully')
+      showMessage('Status atualizado com sucesso')
       fetchRegistrations();
     } catch (e) {
       setErrors((current) => ({
@@ -98,7 +98,7 @@ export const useRegistrations = () => {
         updateRegistrationStatus: true,
       }));
       console.error(e);
-      showMessage("Unable to update registration", "error");
+      showMessage("Não foi possivel atualizar o status", "error");
     } finally {
       setLoaders((current) => ({
         ...current,
@@ -129,7 +129,7 @@ export const useRegistrations = () => {
       if (statusCode !== 201) throw new Error(message ?? "error");
 
       history.push(routes.dashboard);
-      showMessage('Registration created successfully')
+      showMessage('Candidato criado com sucesso')
 
     } catch (e) {
       setErrors((current) => ({
@@ -137,7 +137,7 @@ export const useRegistrations = () => {
         createRegistration: true,
       }));
       console.error(e);
-      showMessage("Unable to create registration", "error");
+      showMessage("Não foi possivel criar um novo registro", "error");
     } finally {
       setLoaders((current) => ({
         ...current,
@@ -162,7 +162,7 @@ export const useRegistrations = () => {
 
       if (statusCode !== 200) throw new Error(message ?? "error");
 
-      showMessage('Delete registration successfully')
+      showMessage('Candidado removido com sucesso')
       fetchRegistrations();
     } catch (e) {
       setErrors((current) => ({
@@ -171,7 +171,7 @@ export const useRegistrations = () => {
       }));
 
       console.error(e);
-      showMessage("Unable to delete registration", "error");
+      showMessage("Não foi possivel remover o canditado", "error");
     } finally {
       setLoaders((current) => ({
         ...current,

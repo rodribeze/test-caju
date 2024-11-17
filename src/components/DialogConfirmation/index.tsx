@@ -16,7 +16,7 @@ export const DialogConfirmation = ({
   return (
     <S.Backdrop data-testid="dialog-confirm" show={show ? 'true' : undefined} delay={500}>
       <S.Container>
-        <S.Header>Attention</S.Header>
+        <S.Header>Atenção</S.Header>
         <S.Body>{description}</S.Body>
         <S.Actions>
           <S.ButtonCancel data-testid="btn-dialog-cancel" onClick={onCancel}>Cancelar</S.ButtonCancel>

@@ -32,10 +32,10 @@ const DashboardPage = () => {
   }, [loaders]);
 
   const labelActions = {
-    [RegistrationStatus.Approved]: "approve",
-    [RegistrationStatus.Reproved]: "approve",
-    [RegistrationStatus.Review]: "review",
-    ["TRASH"]: "remove",
+    [RegistrationStatus.Approved]: "aprovar",
+    [RegistrationStatus.Reproved]: "aprovar",
+    [RegistrationStatus.Review]: "revisar",
+    ["TRASH"]: "remover",
   };
 
   return (
@@ -67,9 +67,9 @@ const DashboardPage = () => {
         }}
         onCancel={() => setShowConfirmAction(null)}
         show={!!showConfirmAction}
-        description={`Do you would like confirm to ${
+        description={`Você realmente gostaria de ${
           showConfirmAction && labelActions[showConfirmAction.action]
-        } this registration?`}
+        } este candidato?`}
       />
     </>
   );
