@@ -19,12 +19,15 @@ export type GetRegistrationsParams = {
   cpf?: string;
 }
 
+
 export type GetRegistrationResponse = ClientResponse<Registration[]>;
 export type UpdateRegistrationResponse = ClientResponse<Registration[]>;
 export type RemoveRegistrationResponse = ClientResponse<void>;
+export type CreateRegistrationResponse = ClientResponse<Registration>;
 
 export interface IRegistrationsClient {
   getRegistrations(params: GetRegistrationsParams): Promise<GetRegistrationResponse>;
+  createRegistration(registration: Omit<Registration, 'id'>): Promise<CreateRegistrationResponse>;
   updateRegistration(register: Registration): Promise<UpdateRegistrationResponse>
   removeRegistration(register_id: string): Promise<RemoveRegistrationResponse>
 }

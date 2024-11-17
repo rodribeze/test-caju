@@ -2,11 +2,14 @@ import { Registration } from "@/clients/registrations/IRegistrationsClient";
 import { RegistrationsClient } from "@/clients/registrations/RegistrationsClient";
 import { useCallback, useState } from "react";
 import { useToast } from "./useToast";
+import { useHistory } from "react-router-dom";
+import routes from "@/router/routes";
 
 type Actions =
   | "fetchRegistration"
   | "updateRegistrationStatus"
-  | "removeRegistration";
+  | "removeRegistration"
+  | "createRegistration";
 
 type Loaders = Record<Actions, boolean>;
 type Errors = Record<Actions, boolean>;
@@ -15,6 +18,7 @@ const initialActions: Record<Actions, boolean> = {
   fetchRegistration: false,
   updateRegistrationStatus: false,
   removeRegistration: false,
+  createRegistration: false,
 };
 
 export const useRegistrations = () => {
@@ -28,6 +32,7 @@ export const useRegistrations = () => {
 
   const [loaders, setLoaders] = useState<Loaders>(initialActions);
   const [errors, setErrors] = useState<Errors>(initialActions);
+  const history = useHistory();
 
   const fetchRegistrations = useCallback(async () => {
     try {
@@ -102,6 +107,45 @@ export const useRegistrations = () => {
     }
   };
 
+  const createRegistration = async (
+    register: Omit<Registration, 'id' | 'status'>
+  ) => {
+    try {
+      setErrors((current) => ({
+        ...current,
+        createRegistration: false,
+      }));
+      setLoaders((current) => ({
+        ...current,
+        createRegistration: true,
+      }));
+
+      const { statusCode, message } =
+        await RegistrationsClient.createRegistration({
+          ...register,
+          status: 'REVIEW'
+        });
+
+      if (statusCode !== 201) throw new Error(message ?? "error");
+
+      history.push(routes.dashboard);
+      showMessage('Registration created successfully')
+      
+    } catch (e) {
+      setErrors((current) => ({
+        ...current,
+        createRegistration: true,
+      }));
+      console.error(e);
+      showMessage("Unable to create registration", "error");
+    } finally {
+      setLoaders((current) => ({
+        ...current,
+        createRegistration: false,
+      }));
+    }
+  };
+
   const deleteRegistration = async (register: Registration) => {
     try {
       setErrors((current) => ({
@@ -149,6 +193,7 @@ export const useRegistrations = () => {
     fetchRegistrations,
     updateRegistrationStatus,
     deleteRegistration,
+    createRegistration,
     cpf,
     setCpf,
     loaders,

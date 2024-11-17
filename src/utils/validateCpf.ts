@@ -1,7 +1,9 @@
 export const validateCpf = (cpf: string) => {
-  const cpfRaw = cpf.replace(/[^0-9]/gi, "");
+  let cpfRaw = cpf;
 
   if (cpfRaw.length !== 11) return false;
+
+  cpfRaw = cpfRaw.replace(/[^0-9]/gi, "")
 
   // checking first digit xxx.xxx.xxx.(X)x
   const aFirstCheck = [10, 9, 8, 7, 6, 5, 4, 3, 2];
