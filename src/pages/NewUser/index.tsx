@@ -42,6 +42,7 @@ const NewUserPage = () => {
                   placeholder="Name"
                   label="Name"
                   error={String(errors?.employeeName?.message ?? "")}
+                  data-testid="employeeName"
                 />
               )}
             ></Controller>
@@ -55,6 +56,7 @@ const NewUserPage = () => {
                   label="Email"
                   type="email"
                   error={String(errors?.email?.message ?? "")}
+                  data-testid="email"
                 />
               )}
             ></Controller>
@@ -71,6 +73,7 @@ const NewUserPage = () => {
                       },
                     })
                   }
+                  data-testid="cpf"
                 >
                   {(inputProps) => (
                     <TextField
@@ -91,12 +94,13 @@ const NewUserPage = () => {
                   {...field}
                   label="Data de admissão"
                   type="date"
+                  data-testid="admissionDate"
                   error={String(errors?.admissionDate?.message ?? "")}
                 />
               )}
             ></Controller>
 
-            <Button type="submit">Cadastrar</Button>
+            <Button data-testid="btn-create" type="submit">Cadastrar</Button>
           </form>
         </S.Card>
       </S.Container>

@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 type ToastProps = {
-  show: boolean;
+  show: string | undefined;
   type: 'success' | 'error';
   delay: number;
 };

@@ -24,7 +24,7 @@ const Columns = (props: Props) => {
     <S.Container>
       {allColumns.map((column) => {
         return (
-          <S.Column status={column.status} key={column.title}>
+          <S.Column status={column.status} key={column.title} data-testid={`column-registrations-${column.status}`}>
             <>
               <S.TitleColumn status={column.status}>
                 {column.title}

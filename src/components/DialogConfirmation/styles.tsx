@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 type BackdropProps = {
-  show: boolean;
+  show: string | undefined;
   delay: number;
 };
 

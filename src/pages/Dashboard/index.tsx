@@ -32,11 +32,11 @@ const DashboardPage = () => {
   }, [loaders]);
 
   const labelActions = {
-    [RegistrationStatus.Approved]: 'approve',
-    [RegistrationStatus.Reproved]: 'approve',
-    [RegistrationStatus.Review]: 'review',
-    ['TRASH']: 'remove',
-  }
+    [RegistrationStatus.Approved]: "approve",
+    [RegistrationStatus.Reproved]: "approve",
+    [RegistrationStatus.Review]: "review",
+    ["TRASH"]: "remove",
+  };
 
   return (
     <>
@@ -55,20 +55,22 @@ const DashboardPage = () => {
             })
           }
         />
-        <DialogConfirmation
-          onConfirm={() => {
-            setShowConfirmAction(null);
-            showConfirmAction &&
-              handleActions(
-                showConfirmAction.action,
-                showConfirmAction.registration
-              );
-          }}
-          onCancel={() => setShowConfirmAction(null)}
-          show={!!showConfirmAction}
-          description={`Do you would like confirm to ${showConfirmAction && labelActions[showConfirmAction.action]} this registration?`}
-        />
       </S.Container>
+      <DialogConfirmation
+        onConfirm={() => {
+          setShowConfirmAction(null);
+          showConfirmAction &&
+            handleActions(
+              showConfirmAction.action,
+              showConfirmAction.registration
+            );
+        }}
+        onCancel={() => setShowConfirmAction(null)}
+        show={!!showConfirmAction}
+        description={`Do you would like confirm to ${
+          showConfirmAction && labelActions[showConfirmAction.action]
+        } this registration?`}
+      />
     </>
   );
 };

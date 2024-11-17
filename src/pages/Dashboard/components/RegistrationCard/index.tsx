@@ -15,7 +15,7 @@ type Props = {
 
 const RegistrationCard = (props: Props) => {
   return (
-    <S.Card>
+    <S.Card data-testid="registration-card">
       <S.IconAndText>
         <HiOutlineUser />
         <h3>{props.data.employeeName}</h3>
@@ -34,6 +34,7 @@ const RegistrationCard = (props: Props) => {
           <ButtonSmall
             onClick={() => props.onClickAction && props.onClickAction("REVIEW")}
             bgcolor="#ff8858"
+            data-testid="action-review"
           >
             Revisar novamente
           </ButtonSmall>
@@ -45,6 +46,7 @@ const RegistrationCard = (props: Props) => {
                 props.onClickAction && props.onClickAction("APPROVED")
               }
               bgcolor="rgb(155, 229, 155)"
+              data-testid="action-approve"
             >
               Aprovar
             </ButtonSmall>
@@ -54,6 +56,7 @@ const RegistrationCard = (props: Props) => {
                 props.onClickAction && props.onClickAction("REPROVED")
               }
               bgcolor="rgb(255, 145, 154)"
+              data-testid="action-reprove"
             >
               Reprovar
             </ButtonSmall>
@@ -61,6 +64,7 @@ const RegistrationCard = (props: Props) => {
         )}
 
         <HiOutlineTrash
+          data-testid="action-trash"
           onClick={() => props.onClickAction && props.onClickAction("TRASH")}
         />
       </S.Actions>

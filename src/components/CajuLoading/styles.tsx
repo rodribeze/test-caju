@@ -1,7 +1,7 @@
 import styled, { keyframes } from "styled-components";
 
 type CajuLoadingBackdropProps = {
-  show: boolean;
+  show: string | undefined;
   delay: number;
 };
 
